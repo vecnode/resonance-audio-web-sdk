@@ -22,7 +22,6 @@
 'use strict';
 
 
-// Internal dependencies.
 const Omnitone = require('../node_modules/omnitone/build/omnitone.js');
 const Encoder = require('./encoder.js');
 const Utils = require('./utils.js');
@@ -104,12 +103,12 @@ function Listener(context, options) {
   this._ambisonicOrder =
     Encoder.validateAmbisonicOrder(options.ambisonicOrder);
 
-    // Create audio nodes.
+  // Create audio nodes.
   this._context = context;
   if (this._ambisonicOrder == 1) {
-    this._renderer = Omnitone.Omnitone.createFOARenderer(context, {});
+    this._renderer = Omnitone.createFOARenderer(context, {});
   } else if (this._ambisonicOrder > 1) {
-    this._renderer = Omnitone.Omnitone.createHOARenderer(context, {
+    this._renderer = Omnitone.createHOARenderer(context, {
       ambisonicOrder: this._ambisonicOrder,
     });
   }

@@ -23,18 +23,21 @@
 
 
 // Main module.
-exports.ResonanceAudio = require('./resonance-audio.js');
+const ResonanceAudio = require('./resonance-audio.js');
 
 
 // Testable Submodules.
-exports.ResonanceAudio.Attenuation = require('./attenuation.js');
-exports.ResonanceAudio.Directivity = require('./directivity.js');
-exports.ResonanceAudio.EarlyReflections = require('./early-reflections.js');
-exports.ResonanceAudio.Encoder = require('./encoder.js');
-exports.ResonanceAudio.LateReflections = require('./late-reflections.js');
-exports.ResonanceAudio.Listener = require('./listener.js');
-exports.ResonanceAudio.Room = require('./room.js');
-exports.ResonanceAudio.Source = require('./source.js');
-exports.ResonanceAudio.Tables = require('./tables.js');
-exports.ResonanceAudio.Utils = require('./utils.js');
-exports.ResonanceAudio.Version = require('./version.js');
+ResonanceAudio.Attenuation = require('./attenuation.js');
+ResonanceAudio.Directivity = require('./directivity.js');
+ResonanceAudio.EarlyReflections = require('./early-reflections.js');
+ResonanceAudio.Encoder = require('./encoder.js');
+ResonanceAudio.LateReflections = require('./late-reflections.js');
+ResonanceAudio.Listener = require('./listener.js');
+ResonanceAudio.Room = require('./room.js');
+ResonanceAudio.Source = require('./source.js');
+ResonanceAudio.Tables = require('./tables.js');
+ResonanceAudio.Utils = require('./utils.js');
+ResonanceAudio.Version = require('./version.js');
+
+// Export the constructor directly.
+module.exports = ResonanceAudio;

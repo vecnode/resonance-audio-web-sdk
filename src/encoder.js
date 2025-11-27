@@ -198,18 +198,18 @@ Encoder.prototype.setSourceWidth = function(sourceWidth) {
 Encoder.validateAmbisonicOrder = function(ambisonicOrder) {
   if (isNaN(ambisonicOrder) || ambisonicOrder == undefined) {
     Utils.log('Error: Invalid ambisonic order',
-    options.ambisonicOrder, '\nUsing ambisonicOrder=1 instead.');
+    ambisonicOrder, '\nUsing ambisonicOrder=1 instead.');
     ambisonicOrder = 1;
   } else if (ambisonicOrder < 1) {
     Utils.log('Error: Unable to render ambisonic order',
-    options.ambisonicOrder, '(Min order is 1)',
+    ambisonicOrder, '(Min order is 1)',
     '\nUsing min order instead.');
     ambisonicOrder = 1;
   } else if (ambisonicOrder > Tables.SPHERICAL_HARMONICS_MAX_ORDER) {
     Utils.log('Error: Unable to render ambisonic order',
-    options.ambisonicOrder, '(Max order is',
+    ambisonicOrder, '(Max order is',
     Tables.SPHERICAL_HARMONICS_MAX_ORDER, ')\nUsing max order instead.');
-    options.ambisonicOrder = Tables.SPHERICAL_HARMONICS_MAX_ORDER;
+    ambisonicOrder = Tables.SPHERICAL_HARMONICS_MAX_ORDER;
   }
   return ambisonicOrder;
 };

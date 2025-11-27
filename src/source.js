@@ -184,7 +184,7 @@ Source.prototype.setPosition = function(x, y, z) {
   // Handle far-field effect.
   let distance = this._scene._room.getDistanceOutsideRoom(
     this._position[0], this._position[1], this._position[2]);
-    let gain = _computeDistanceOutsideRoom(distance);
+  let gain = _computeDistanceOutsideRoom(distance);
   this._toLate.gain.value = gain;
   this._toEarly.gain.value = gain;
 
@@ -198,8 +198,7 @@ Source.prototype._update = function() {
   for (let i = 0; i < 3; i++) {
     this._dx[i] = this._position[i] - this._scene._listener.position[i];
   }
-  let distance = Math.sqrt(this._dx[0] * this._dx[0] +
-    this._dx[1] * this._dx[1] + this._dx[2] * this._dx[2]);
+  let distance = Math.hypot(this._dx[0], this._dx[1], this._dx[2]);
   if (distance > 0) {
     // Normalize direction vector.
     this._dx[0] /= distance;
@@ -207,11 +206,11 @@ Source.prototype._update = function() {
     this._dx[2] /= distance;
   }
 
-  // Compuete angle of direction vector.
+  // Compute angle of direction vector.
   let azimuth = Math.atan2(-this._dx[0], this._dx[2]) *
     Utils.RADIANS_TO_DEGREES;
-  let elevation = Math.atan2(this._dx[1], Math.sqrt(this._dx[0] * this._dx[0] +
-    this._dx[2] * this._dx[2])) * Utils.RADIANS_TO_DEGREES;
+  let elevation = Math.atan2(this._dx[1], Math.hypot(this._dx[0], this._dx[2])) *
+    Utils.RADIANS_TO_DEGREES;
 
   // Set distance/directivity/direction values.
   this._attenuation.setDistance(distance);

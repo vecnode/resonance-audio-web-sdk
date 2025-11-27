@@ -3,10 +3,10 @@
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
-	else {
-		var a = factory();
-		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
-	}
+	else if(typeof exports === 'object')
+		exports["ResonanceAudio"] = factory();
+	else
+		root["ResonanceAudio"] = factory();
 })(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -845,7 +845,6 @@ module.exports = Encoder;
 
 
 
-// Internal dependencies.
 const Omnitone = __webpack_require__(12);
 const Encoder = __webpack_require__(1);
 const Utils = __webpack_require__(0);
@@ -927,12 +926,12 @@ function Listener(context, options) {
   this._ambisonicOrder =
     Encoder.validateAmbisonicOrder(options.ambisonicOrder);
 
-    // Create audio nodes.
+  // Create audio nodes.
   this._context = context;
   if (this._ambisonicOrder == 1) {
-    this._renderer = Omnitone.Omnitone.createFOARenderer(context, {});
+    this._renderer = Omnitone.createFOARenderer(context, {});
   } else if (this._ambisonicOrder > 1) {
-    this._renderer = Omnitone.Omnitone.createHOARenderer(context, {
+    this._renderer = Omnitone.createHOARenderer(context, {
       ambisonicOrder: this._ambisonicOrder,
     });
   }
@@ -3705,21 +3704,24 @@ module.exports = EarlyReflections;
 
 
 // Main module.
-exports.ResonanceAudio = __webpack_require__(11);
+const ResonanceAudio = __webpack_require__(11);
 
 
 // Testable Submodules.
-exports.ResonanceAudio.Attenuation = __webpack_require__(6);
-exports.ResonanceAudio.Directivity = __webpack_require__(5);
-exports.ResonanceAudio.EarlyReflections = __webpack_require__(9);
-exports.ResonanceAudio.Encoder = __webpack_require__(1);
-exports.ResonanceAudio.LateReflections = __webpack_require__(8);
-exports.ResonanceAudio.Listener = __webpack_require__(2);
-exports.ResonanceAudio.Room = __webpack_require__(7);
-exports.ResonanceAudio.Source = __webpack_require__(4);
-exports.ResonanceAudio.Tables = __webpack_require__(3);
-exports.ResonanceAudio.Utils = __webpack_require__(0);
-exports.ResonanceAudio.Version = __webpack_require__(13);
+ResonanceAudio.Attenuation = __webpack_require__(6);
+ResonanceAudio.Directivity = __webpack_require__(5);
+ResonanceAudio.EarlyReflections = __webpack_require__(9);
+ResonanceAudio.Encoder = __webpack_require__(1);
+ResonanceAudio.LateReflections = __webpack_require__(8);
+ResonanceAudio.Listener = __webpack_require__(2);
+ResonanceAudio.Room = __webpack_require__(7);
+ResonanceAudio.Source = __webpack_require__(4);
+ResonanceAudio.Tables = __webpack_require__(3);
+ResonanceAudio.Utils = __webpack_require__(0);
+ResonanceAudio.Version = __webpack_require__(13);
+
+// Export the constructor directly.
+module.exports = ResonanceAudio;
 
 
 /***/ }),

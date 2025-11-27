@@ -333,11 +333,11 @@ Room.prototype.setListenerPosition = function(x, y, z) {
 Room.prototype.getDistanceOutsideRoom = function(x, y, z) {
   let dx = Math.max(0, -this.early._halfDimensions.width - x,
     x - this.early._halfDimensions.width);
-    let dy = Math.max(0, -this.early._halfDimensions.height - y,
+  let dy = Math.max(0, -this.early._halfDimensions.height - y,
     y - this.early._halfDimensions.height);
-    let dz = Math.max(0, -this.early._halfDimensions.depth - z,
+  let dz = Math.max(0, -this.early._halfDimensions.depth - z,
     z - this.early._halfDimensions.depth);
-  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+  return Math.hypot(dx, dy, dz);
 };
 
 

@@ -11,26 +11,28 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Copyright (c) 2025 vecnode. All rights reserved.
  */
 
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/main.js',
   output: {
     path: __dirname + '/build',
     filename: 'resonance-audio.min.js',
-    libraryTarget: 'umd',
+    library: 'ResonanceAudio',
+    libraryTarget: 'umd'
   },
   plugins: [
     new UglifyJSPlugin({
       uglifyOptions: {
         mangle: {
-          // To address the 'let' bug in Safari 10. See:
-          // https://github.com/mishoo/UglifyJS2/issues/1753
           'safari10': true
         }
       }
     }),
   ]};
+
+
