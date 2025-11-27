@@ -6,7 +6,19 @@ Copyright (c) 2017 Google Inc. All rights reserved.
 
 ## Getting Started
 
+To build the project use:
+```sh
+npm install
+npm run build
+npm run build-all
+# on windows 11 check build
+# Get-ChildItem build\*.js | Select-Object Name, Length, LastWriteTime
+```
+
+
 Consult our [online documentation](//developers.google.com/resonance-audio/develop/web/getting-started) for more information.
 
 To learn more about how Resonance Audio works, see
 [https://developers.google.com/resonance-audio/discover/concepts](https://developers.google.com/resonance-audio/discover/concepts)
+
+
