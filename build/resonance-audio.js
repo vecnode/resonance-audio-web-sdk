@@ -563,7 +563,7 @@ Utils.log = function() {
  */
 Utils.normalizeVector = function(v) {
   let n = Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
-  if (n > exports.EPSILON_FLOAT) {
+  if (n > Utils.EPSILON_FLOAT) {
     n = 1 / n;
     v[0] *= n;
     v[1] *= n;
@@ -796,18 +796,18 @@ Encoder.prototype.setSourceWidth = function(sourceWidth) {
 Encoder.validateAmbisonicOrder = function(ambisonicOrder) {
   if (isNaN(ambisonicOrder) || ambisonicOrder == undefined) {
     Utils.log('Error: Invalid ambisonic order',
-    options.ambisonicOrder, '\nUsing ambisonicOrder=1 instead.');
+    ambisonicOrder, '\nUsing ambisonicOrder=1 instead.');
     ambisonicOrder = 1;
   } else if (ambisonicOrder < 1) {
     Utils.log('Error: Unable to render ambisonic order',
-    options.ambisonicOrder, '(Min order is 1)',
+    ambisonicOrder, '(Min order is 1)',
     '\nUsing min order instead.');
     ambisonicOrder = 1;
   } else if (ambisonicOrder > Tables.SPHERICAL_HARMONICS_MAX_ORDER) {
     Utils.log('Error: Unable to render ambisonic order',
-    options.ambisonicOrder, '(Max order is',
+    ambisonicOrder, '(Max order is',
     Tables.SPHERICAL_HARMONICS_MAX_ORDER, ')\nUsing max order instead.');
-    options.ambisonicOrder = Tables.SPHERICAL_HARMONICS_MAX_ORDER;
+    ambisonicOrder = Tables.SPHERICAL_HARMONICS_MAX_ORDER;
   }
   return ambisonicOrder;
 };
@@ -2363,7 +2363,7 @@ Source.prototype.setPosition = function(x, y, z) {
   // Handle far-field effect.
   let distance = this._scene._room.getDistanceOutsideRoom(
     this._position[0], this._position[1], this._position[2]);
-    let gain = _computeDistanceOutsideRoom(distance);
+  let gain = _computeDistanceOutsideRoom(distance);
   this._toLate.gain.value = gain;
   this._toEarly.gain.value = gain;
 
@@ -2377,8 +2377,7 @@ Source.prototype._update = function() {
   for (let i = 0; i < 3; i++) {
     this._dx[i] = this._position[i] - this._scene._listener.position[i];
   }
-  let distance = Math.sqrt(this._dx[0] * this._dx[0] +
-    this._dx[1] * this._dx[1] + this._dx[2] * this._dx[2]);
+  let distance = Math.hypot(this._dx[0], this._dx[1], this._dx[2]);
   if (distance > 0) {
     // Normalize direction vector.
     this._dx[0] /= distance;
@@ -2386,11 +2385,11 @@ Source.prototype._update = function() {
     this._dx[2] /= distance;
   }
 
-  // Compuete angle of direction vector.
+  // Compute angle of direction vector.
   let azimuth = Math.atan2(-this._dx[0], this._dx[2]) *
     Utils.RADIANS_TO_DEGREES;
-  let elevation = Math.atan2(this._dx[1], Math.sqrt(this._dx[0] * this._dx[0] +
-    this._dx[2] * this._dx[2])) * Utils.RADIANS_TO_DEGREES;
+  let elevation = Math.atan2(this._dx[1], Math.hypot(this._dx[0], this._dx[2])) *
+    Utils.RADIANS_TO_DEGREES;
 
   // Set distance/directivity/direction values.
   this._attenuation.setDistance(distance);
@@ -3184,11 +3183,11 @@ Room.prototype.setListenerPosition = function(x, y, z) {
 Room.prototype.getDistanceOutsideRoom = function(x, y, z) {
   let dx = Math.max(0, -this.early._halfDimensions.width - x,
     x - this.early._halfDimensions.width);
-    let dy = Math.max(0, -this.early._halfDimensions.height - y,
+  let dy = Math.max(0, -this.early._halfDimensions.height - y,
     y - this.early._halfDimensions.height);
-    let dz = Math.max(0, -this.early._halfDimensions.depth - z,
+  let dz = Math.max(0, -this.early._halfDimensions.depth - z,
     z - this.early._halfDimensions.depth);
-  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+  return Math.hypot(dx, dy, dz);
 };
 
 
@@ -3718,7 +3717,7 @@ ResonanceAudio.Room = __webpack_require__(7);
 ResonanceAudio.Source = __webpack_require__(4);
 ResonanceAudio.Tables = __webpack_require__(3);
 ResonanceAudio.Utils = __webpack_require__(0);
-ResonanceAudio.Version = __webpack_require__(13);
+ResonanceAudio.Version = __webpack_require__(14);
 
 // Export the constructor directly.
 module.exports = ResonanceAudio;
@@ -3888,7 +3887,7 @@ ResonanceAudio.prototype.createSource = function(options) {
   // Create a source and push it to the internal sources array, returning
   // the object's reference to the user.
   let source = new Source(this, options);
-  this._sources[this._sources.length] = source;
+  this._sources.push(source);
   return source;
 };
 
@@ -3976,6 +3975,22 @@ module.exports = ResonanceAudio;
 
 /***/ }),
 /* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * @file Wrapper for Omnitone to ensure proper CommonJS export.
+ * The omnitone.js file is an IIFE that returns Omnitone but doesn't export it.
+ * This wrapper ensures webpack can properly bundle it.
+ */
+
+
+const Omnitone = __webpack_require__(13);
+module.exports = Omnitone;
+
+
+
+/***/ }),
+/* 13 */
 /***/ (function(module, exports) {
 
 /**
@@ -5102,8 +5117,10 @@ ${Omnitone.browserInfo.version} on ${Omnitone.browserInfo.platform})`);
 }());
 
 
+module.exports = Omnitone;
+
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

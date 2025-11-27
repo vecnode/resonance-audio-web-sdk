@@ -22,7 +22,7 @@
 'use strict';
 
 
-const Omnitone = require('../node_modules/omnitone/build/omnitone.js');
+const Omnitone = require('./omnitone-wrapper.js');
 const Encoder = require('./encoder.js');
 const Utils = require('./utils.js');
 

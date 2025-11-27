@@ -16,6 +16,7 @@
  */
 
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const OmnitoneExportPlugin = require('./webpack.omnitone-fix.js');
 
 module.exports = {
   entry: './src/main.js',
@@ -26,6 +27,7 @@ module.exports = {
     libraryTarget: 'umd'
   },
   plugins: [
+    new OmnitoneExportPlugin(),
     new UglifyJSPlugin({
       uglifyOptions: {
         mangle: {

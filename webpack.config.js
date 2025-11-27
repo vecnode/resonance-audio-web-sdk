@@ -1,3 +1,5 @@
+const OmnitoneExportPlugin = require('./webpack.omnitone-fix.js');
+
 module.exports = {
   entry: './src/main.js',
   output: {
@@ -6,4 +8,7 @@ module.exports = {
     library: 'ResonanceAudio',
     libraryTarget: 'umd'
   },
+  plugins: [
+    new OmnitoneExportPlugin()
+  ]
 };
